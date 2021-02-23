@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\TracksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,12 @@ Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.
 
 
 Route::get('/playlists', [PlaylistController::class, 'playlistIndex'])->name('playlists.playlistIndex');
-Route::get('playlists/{playlistId}', [PlaylistController::class, 'playlistDetails'])->name('playlists.playlistDetails');
+Route::get('/playlists/{playlistId}', [PlaylistController::class, 'playlistDetails'])->name('playlists.playlistDetails');
+Route::get('/playlists/{playlistId}/edit', [PlaylistController::class, 'edit'])->name('playlists.edit');
+Route::post('/playlists/{playlistId}', [PlaylistController::class, 'update'])->name('playlists.update');
 
+
+Route::get('/tracks', [TracksController::class, 'index'])->name('tracks.index');
+Route::get('/tracks/new', [TracksController::class, 'new'])->name('tracks.new');
+Route::post('/tracks', [TracksController::class, 'store'])->name('tracks.store');
 
