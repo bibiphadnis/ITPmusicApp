@@ -21,6 +21,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('playlists.playlistIndex')}}">Playlists</a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="{{ route('albums.index') }}">Albums</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ route('eloquentalbums.index') }}">Albums (Eloquent)</a>
+                    </li>
                 </ul>
             </div>
             <div class="col-9">
