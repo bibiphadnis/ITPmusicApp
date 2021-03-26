@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http;
-
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -54,6 +53,10 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'custom-auth' => \App\Http\Middleware\CustomAuthentication::class,
+        'not-blocked' => \App\Http\Middleware\PreventBlockedUsers::class,
+        'maint' => \App\Http\Middleware\MaintenanceMode::class,
+        'admin' => \App\Http\Middleware\Administrator::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
