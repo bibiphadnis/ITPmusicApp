@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use App\Models\Invoice;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,15 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Gate::define('view-invoice', function(User $user, Invoice $invoice) {
+        //     return $user->email === $invoice->customer->email;
+        // });
+
+        Gate::before(function (User $user) 
+        {
+            if ($user->isAdmin()) {
+                return true;
+            }
+        });
     }
 }

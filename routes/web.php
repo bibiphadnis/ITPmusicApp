@@ -109,6 +109,8 @@ Route::middleware(['custom-auth'])->group(function() {
     });
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::view('/blocked', 'blocked')->name('blocked');
+    Route::get('/albums/create', [AlbumController::class, 'create'])->name('albums.create');
+    Route::get('/albums/{id}/edit', [AlbumController::class, 'edit'])->name('albums.edit');
     Route::middleware(['admin'])->group(function() {
         Route::get('/admin', [AuthController::class, 'admin'])->name('auth.admin');
         Route::post('/admin', [AuthController::class, 'update'])->name('auth.update');
@@ -129,9 +131,7 @@ Route::middleware(['maint'])->group(function() {
     Route::post('/tracks', [TracksController::class, 'store'])->name('tracks.store');
 
     Route::get('/albums', [AlbumController::class, 'index'])->name('albums.index');
-    Route::get('/albums/create', [AlbumController::class, 'create'])->name('albums.create');
     Route::post('/albums', [AlbumController::class, 'store'])->name('albums.store');
-    Route::get('/albums/{id}/edit', [AlbumController::class, 'edit'])->name('albums.edit');
     Route::post('/albums/{id}', [AlbumController::class, 'update'])->name('albums.update');
 
     Route::get('/eloquentalbums', [AlbumEloquentController::class, 'index'])->name('eloquentalbums.index');

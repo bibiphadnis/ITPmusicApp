@@ -15,9 +15,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('tracks.index')}}">Tracks</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('invoice.index')}}">Invoices</a>
-                    </li>
+                    @can ('viewAny', App\Models\Invoice::class)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('invoice.index')}}">Invoices</a>
+                        </li>
+                    @endcan
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('playlists.playlistIndex')}}">Playlists</a>
                     </li>

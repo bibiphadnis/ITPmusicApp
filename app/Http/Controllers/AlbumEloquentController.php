@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Album;
 use App\Models\Artist;
+use Illuminate\Support\Facades\Auth;
 
 class AlbumEloquentController extends Controller
 {
     public function index()
     {
 
-        $albums = Album::with(['artist'])->get();
+        $albums = Album::with(['artist', 'user'])->get();
 
         return view('eloquentalbums.index', [
             'albums' => $albums,
@@ -38,6 +39,7 @@ class AlbumEloquentController extends Controller
         $album = new Album();
         $album->title = $request->input('title');
         $album->artist_id = $request->input('artist');
+        $album->user_id = Auth::user()->id;
         $album->save(); 
 
 
@@ -56,12 +58,14 @@ class AlbumEloquentController extends Controller
         
         $artists = Artist::orderBy('name')->get();
 
+        $this->authorize('update', $album);
+
         return view('eloquentalbums.edit', [
             'album' => $album,
             'artists' => $artists,
         ]);
     }
-
+ 
     public function update($id, Request $request)
     {
         $request->validate([
@@ -70,9 +74,12 @@ class AlbumEloquentController extends Controller
         ]);
 
         $albums = Album::where('id', '=', $id)->first();
+        $this->authorize('update', $albums);
         $albums->title = $request->input('title');
         $albums->artist_id = $request->input('artist');
         $albums->save();
+
+       
 
         $artist = Artist::find($request->input('artist'));
 

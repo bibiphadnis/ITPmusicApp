@@ -5,13 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Invoice;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
     public function index() {
+
+        $this->authorize('viewAny', Invoice::class);
         
         // $invoices = Invoice::all(); N+! problem
-        $invoices = Invoice::with(['customer'])->get();
+        $invoices = Invoice::select('invoices.*')
+        ->with(['customer'])
+        ->join('customers', 'invoices.customer_id', '=', 'customers.id')
+        ->when(!Auth::user()->isAdmin(), function($query) {
+            return $query->where('customers.email', '=', Auth::user()->email);
+        })
+        ->get();
         
         
         // $invoices = DB::table('invoices') //SELECT * FROM invoices
@@ -57,6 +67,43 @@ class InvoiceController extends Controller
             'invoiceItems.track.album.artist'
         ])
         ->find($id);
+
+        // via invoice gate
+
+        // if (Gate::denies('view-invoice', $invoice)) {
+        //     abort(403);
+        // }
+
+
+        // if (!Gate::allows('view-invoice', $invoice)) {
+        //     abort(403);
+        // }
+
+        // if (Auth::user()->cannot('view-invoice', $invoice)) {
+        //     abort(403);
+        // }
+
+        // if (!Auth::user()->can('view-invoice', $invoice)) {
+        //     abort(403);
+        // }
+
+        // $this->authorize('view-invoice', $invoice);
+
+
+
+        // via invoice policy
+
+        $this->authorize('view', $invoice);
+
+        //    if (Auth::user()->cannot('view', $invoice)) {
+        //     abort(403);
+        // }
+
+
+        // if (Gate::denies('view', $invoice)) {
+        //     abort(403);
+        // }
+
 
         return view('invoice.show', [
             'invoice' => $invoice,

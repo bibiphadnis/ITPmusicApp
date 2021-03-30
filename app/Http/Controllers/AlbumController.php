@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AlbumController extends Controller
 {
@@ -43,6 +44,7 @@ class AlbumController extends Controller
         DB::table('albums')->insert([
             'title' => $request->input('title'),
             'artist_id' => $request->input('artist'),
+            // 'user_id' => Auth::user()->id
         ]);
 
         $artist = DB::table('artists')
