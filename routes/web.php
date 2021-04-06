@@ -8,12 +8,17 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlbumEloquentController;
+use App\Jobs\AnnounceNewAlbum;
 use Illuminate\Support\Facades\Route;
 use App\Models\Artist;
 use App\Models\Track;
 use App\Models\Genre;
 use App\Models\Album;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewAlbum;
+use App\Mail\StatsEmail;
+use App\Jobs\StatsEmailSend;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +98,30 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('mail', function() {
+    // Mail::raw('whats your favorite framework?', function($message) {
+    //     $message->to('bphadnis@usc.edu')->subject('hello bibi');
+    // });
+    
+    // dispatch(function () {
+    //     $masterOfPuppets = Album::find(1);
+    //     Mail::to('bphadnis@usc.edu')->send(new NewAlbum($masterOfPuppets));
+    // });
+
+    // $jaggedLittlePill = Album::find(6);
+    // Mail::to('bphadnis@usc.edu')->queue(new NewAlbum($jaggedLittlePill));
+    
+    // return view('email.new-album', [
+    //     'album' => Album::first()
+    // ]);
+
+    $jaggedLittlePill = Album::find(6);
+    AnnounceNewAlbum::dispatch($jaggedLittlePill);
+});
+
+Route::post('/stats', function() {
+    StatsEmailSend::dispatch();
+})->name('stats');
 
 
  Route::get('/register', [RegistrationController::class,'index'])->name('registration.index');

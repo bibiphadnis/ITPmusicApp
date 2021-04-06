@@ -13,9 +13,9 @@ class UpdateAlbumsTable extends Migration
      */
     public function up()
     {
-        Schema::table('albums', function(Blueprint $table) {
-            $table->foreignId('user_id')->nullable()->default(2);
-        });
+        // Schema::table('albums', function(Blueprint $table) {
+        //     $table->foreignId('user_id')->nullable()->default(2);
+        // });
     }
 
     /**
