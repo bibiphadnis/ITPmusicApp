@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AlbumController;
+use App\Http\Controllers\Api\ArtistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('albums', AlbumController::class);
+
+Route::get('api/albums/{album}', [AlbumController::class, 'show']);
+
+Route::resource('artists', ArtistController::class);

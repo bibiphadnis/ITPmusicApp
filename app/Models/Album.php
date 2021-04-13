@@ -9,6 +9,8 @@ class Album extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'artist_id'];
+
     public function artist()
     {
         // albums.artist_id is the FK column

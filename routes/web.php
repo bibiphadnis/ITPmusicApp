@@ -31,6 +31,9 @@ use App\Jobs\StatsEmailSend;
 |
 */
 
+
+
+
 Route::get('/eloquent', function() {
     // // QUERYING
     // return view('eloquent.artists', [
